@@ -1,15 +1,12 @@
-{ config, pkgs, test, ... }:
+{ config, pkgs, ... }:
 
 {
   imports =
     [
-      ./machine/mnet.nix
-      ./modules/wireguard.nix
+      ./machine/predator.nix
+      #./modules/wireguard.nix
     ];
 
-  nixpkgs.overlays = [
-    (_: _: { test = test.defaultPackage.x86_64-linux; })
-  ];
 
   nix.settings.experimental-features = [ "nix-command" "flakes" ];
   nixpkgs.config.allowUnfree = true;
@@ -30,7 +27,7 @@
   #!----Bootloader----
 
   #*----Networking----
-  networking.hostName = "nixos";
+  networking.hostName = "runway";
   # networking.wireless.enable = true;
   # networking.proxy.default = "http://user:password@proxy:port/";
   # networking.proxy.noProxy = "127.0.0.1,localhost,internal.domain";
@@ -82,9 +79,9 @@
 
 
   #*----User Account----
-  users.users.xpert = {
+  users.users.kartos = {
     isNormalUser = true;
-    description = "Abhishek Adhikari";
+    description = "Amartya Jash";
     extraGroups = [ "networkmanager" "wheel" "docker" ];
     packages = with pkgs; [
       firefox
@@ -132,9 +129,6 @@
     mpv
     #!---misc---
 
-    #*---test pkgs---
-    pkgs.test
-    #!---test pkgs---
   ];
   #!----System Packages----
 
@@ -157,12 +151,6 @@
   services.gnome.gnome-keyring.enable = true;
   #!----User Access Settings----
 
-  services.pkg_name =
-    {
-      enable = false;
-      example_option = "Please visit lordvader.me";
-    };
-
   #*----Firewall----
   # networking.firewall.allowedTCPPorts = [ ... ];
   # networking.firewall.allowedUDPPorts = [ ... ];
@@ -171,7 +159,7 @@
 
   services.jupyterhub =
     {
-      enable = true;
+      enable = false;
     };
 
   #*---settings node-exporter---
